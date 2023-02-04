@@ -9,6 +9,7 @@ function App() {
   const [url, setURL] = React.useState('http://styleguide.effectivedigital.com/interview/api/animals'); 
   const [data, setData] = React.useState();
   const [label,setLabel] = React.useState('animal');
+  const [card, setCard] = React.useState(false);
 
   const loadData = async (label) => {
     setLabel(label);
@@ -22,8 +23,13 @@ function App() {
   React.useEffect(() => {
    loadData(label);
   }, [label])
-  //curried function
-  const handleButtonClick = (id) => () => { console.log("Clicked", id)}
+
+  const handleButtonClick = (imgURL) => {
+    return () => {
+      setCard(imgURL)
+    };
+  };
+  
   return (
     <div className="App">
 
@@ -34,6 +40,9 @@ function App() {
 
       <div className="IconContainer"> 
         {data?.map(row => <Icon className="icon" onClick = {handleButtonClick} key={Math.random(100) * 100000} display={row} />)}
+      </div>
+      <div className="expandedIcon">
+        <img style={{justifyContent: "center"}} src={card} />
       </div>
     </div>
   );
